@@ -2,9 +2,12 @@
 
 A comprehensive collection of 90+ ready-to-use animations for React using Framer Motion. Inspired by animate.css, built for modern React applications.
 
+🎪 **[View Live Demo](https://thedotmack.github.io/framer-motion-animations/)**
+
 [![npm version](https://img.shields.io/npm/v/framer-motion-animations.svg)](https://www.npmjs.com/package/framer-motion-animations)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
+[![Demo](https://img.shields.io/badge/Demo-Live-brightgreen.svg)](https://thedotmack.github.io/framer-motion-animations/)
 
 ## ✨ Features
 
