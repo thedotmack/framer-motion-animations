@@ -1,0 +1,32 @@
+{
+  "name": "framer-motion-animations",
+  "description": "A comprehensive collection of 90+ animations for React using Framer Motion",
+  "dependencies": [
+    "framer-motion"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/animations/base-animation.tsx",
+      "content": "src/components/BaseAnimation.tsx",
+      "type": "component"
+    },
+    {
+      "path": "lib/animation-variants.ts",
+      "content": "src/lib/variants.ts",
+      "type": "lib"
+    },
+    {
+      "path": "components/animations/index.ts",
+      "content": "src/components/index.ts",
+      "type": "component"
+    }
+  ],
+  "tailwind": {
+    "config": {}
+  },
+  "cssVars": {},
+  "meta": {
+    "importSpecifier": "@/components/animations"
+  }
+}
