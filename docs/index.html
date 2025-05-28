@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Framer Motion Animations - Live Demo</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎭</text></svg>">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      color: white;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .header h1 {
+      font-size: 3rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #f9ca24);
+      background-size: 400% 400%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientShift 3s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 2rem;
+    }
+
+    .links {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 0.5rem;
+      color: white;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .demo-section {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 1rem;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .controls {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .animation-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .animation-card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 0.5rem;
+      padding: 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .animation-card:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .animation-card.active {
+      background: rgba(116, 75, 162, 0.5);
+      border-color: rgba(116, 75, 162, 0.8);
+    }
+
+    .preview-area {
+      min-height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 0.5rem;
+      margin-bottom: 2rem;
+      border: 2px dashed rgba(255, 255, 255, 0.3);
+    }
+
+    .demo-element {
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+      padding: 2rem;
+      border-radius: 1rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      max-width: 300px;
+      width: 100%;
+    }
+
+    .animation-info {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .code-section {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 0.5rem;
+      padding: 1rem;
+      margin-top: 2rem;
+      overflow-x: auto;
+    }
+
+    .code-section pre {
+      color: #a7f3d0;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .stat {
+      text-align: center;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 0.5rem;
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: bold;
+      display: block;
+    }
+
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .category-tag {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 0.5rem 1rem;
+      border-radius: 2rem;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .category-tag:hover, .category-tag.active {
+      background: rgba(116, 75, 162, 0.5);
+    }
+
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 2rem;
+      }
+      
+      .container {
+        padding: 1rem;
+      }
+      
+      .animation-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      }
+    }
+
+    /* Animation classes */
+    .animated {
+      animation-duration: 1s;
+      animation-fill-mode: both;
+    }
+
+    .bounce { animation-name: bounce; }
+    .flash { animation-name: flash; }
+    .pulse { animation-name: pulse; }
+    .shake { animation-name: shake; }
+    .swing { animation-name: swing; }
+    .tada { animation-name: tada; }
+    .wobble { animation-name: wobble; }
+    .jello { animation-name: jello; }
+    .heartBeat { animation-name: heartBeat; }
+
+    .bounceIn { animation-name: bounceIn; }
+    .bounceInDown { animation-name: bounceInDown; }
+    .bounceInLeft { animation-name: bounceInLeft; }
+    .bounceInRight { animation-name: bounceInRight; }
+    .bounceInUp { animation-name: bounceInUp; }
+
+    .fadeIn { animation-name: fadeIn; }
+    .fadeInDown { animation-name: fadeInDown; }
+    .fadeInLeft { animation-name: fadeInLeft; }
+    .fadeInRight { animation-name: fadeInRight; }
+    .fadeInUp { animation-name: fadeInUp; }
+
+    .flipInX { animation-name: flipInX; }
+    .flipInY { animation-name: flipInY; }
+
+    .lightSpeedInLeft { animation-name: lightSpeedInLeft; }
+    .lightSpeedInRight { animation-name: lightSpeedInRight; }
+
+    .rotateIn { animation-name: rotateIn; }
+    .rotateInDownLeft { animation-name: rotateInDownLeft; }
+    .rotateInDownRight { animation-name: rotateInDownRight; }
+    .rotateInUpLeft { animation-name: rotateInUpLeft; }
+    .rotateInUpRight { animation-name: rotateInUpRight; }
+
+    .slideInDown { animation-name: slideInDown; }
+    .slideInLeft { animation-name: slideInLeft; }
+    .slideInRight { animation-name: slideInRight; }
+    .slideInUp { animation-name: slideInUp; }
+
+    .zoomIn { animation-name: zoomIn; }
+    .zoomInDown { animation-name: zoomInDown; }
+    .zoomInLeft { animation-name: zoomInLeft; }
+    .zoomInRight { animation-name: zoomInRight; }
+    .zoomInUp { animation-name: zoomInUp; }
+
+    .rollIn { animation-name: rollIn; }
+    .jackInTheBox { animation-name: jackInTheBox; }
+
+    /* CSS Animations - Popular ones */
+    @keyframes bounce {
+      from, 20%, 53%, 80%, to {
+        animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+        transform: translate3d(0,0,0);
+      }
+      40%, 43% {
+        animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+        transform: translate3d(0, -30px, 0);
+      }
+      70% {
+        animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+        transform: translate3d(0, -15px, 0);
+      }
+      90% {
+        transform: translate3d(0,-4px,0);
+      }
+    }
+
+    @keyframes flash {
+      from, 50%, to { opacity: 1; }
+      25%, 75% { opacity: 0; }
+    }
+
+    @keyframes pulse {
+      from { transform: scale3d(1, 1, 1); }
+      50% { transform: scale3d(1.05, 1.05, 1.05); }
+      to { transform: scale3d(1, 1, 1); }
+    }
+
+    @keyframes shake {
+      from, to { transform: translate3d(0, 0, 0); }
+      10%, 30%, 50%, 70%, 90% { transform: translate3d(-10px, 0, 0); }
+      20%, 40%, 60%, 80% { transform: translate3d(10px, 0, 0); }
+    }
+
+    @keyframes swing {
+      20% { transform: rotate3d(0, 0, 1, 15deg); }
+      40% { transform: rotate3d(0, 0, 1, -10deg); }
+      60% { transform: rotate3d(0, 0, 1, 5deg); }
+      80% { transform: rotate3d(0, 0, 1, -5deg); }
+      to { transform: rotate3d(0, 0, 1, 0deg); }
+    }
+
+    @keyframes tada {
+      from { transform: scale3d(1, 1, 1); }
+      10%, 20% { transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg); }
+      30%, 50%, 70%, 90% { transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg); }
+      40%, 60%, 80% { transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg); }
+      to { transform: scale3d(1, 1, 1); }
+    }
+
+    @keyframes wobble {
+      from { transform: translate3d(0, 0, 0); }
+      15% { transform: translate3d(-25%, 0, 0) rotate3d(0, 0, 1, -5deg); }
+      30% { transform: translate3d(20%, 0, 0) rotate3d(0, 0, 1, 3deg); }
+      45% { transform: translate3d(-15%, 0, 0) rotate3d(0, 0, 1, -3deg); }
+      60% { transform: translate3d(10%, 0, 0) rotate3d(0, 0, 1, 2deg); }
+      75% { transform: translate3d(-5%, 0, 0) rotate3d(0, 0, 1, -1deg); }
+      to { transform: translate3d(0, 0, 0); }
+    }
+
+    @keyframes jello {
+      from, 11.1%, to { transform: translate3d(0, 0, 0); }
+      22.2% { transform: skewX(-12.5deg) skewY(-12.5deg); }
+      33.3% { transform: skewX(6.25deg) skewY(6.25deg); }
+      44.4% { transform: skewX(-3.125deg) skewY(-3.125deg); }
+      55.5% { transform: skewX(1.5625deg) skewY(1.5625deg); }
+      66.6% { transform: skewX(-0.78125deg) skewY(-0.78125deg); }
+      77.7% { transform: skewX(0.390625deg) skewY(0.390625deg); }
+      88.8% { transform: skewX(-0.1953125deg) skewY(-0.1953125deg); }
+    }
+
+    @keyframes heartBeat {
+      0% { transform: scale(1); }
+      14% { transform: scale(1.3); }
+      28% { transform: scale(1); }
+      42% { transform: scale(1.3); }
+      70% { transform: scale(1); }
+    }
+
+    @keyframes bounceIn {
+      from, 20%, 40%, 60%, 80%, to {
+        animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+      }
+      0% {
+        opacity: 0;
+        transform: scale3d(.3, .3, .3);
+      }
+      20% {
+        transform: scale3d(1.1, 1.1, 1.1);
+      }
+      40% {
+        transform: scale3d(.9, .9, .9);
+      }
+      60% {
+        opacity: 1;
+        transform: scale3d(1.03, 1.03, 1.03);
+      }
+      80% {
+        transform: scale3d(.97, .97, .97);
+      }
+      to {
+        opacity: 1;
+        transform: scale3d(1, 1, 1);
+      }
+    }
+
+    @keyframes bounceInDown {
+      from, 60%, 75%, 90%, to {
+        animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+      }
+      0% {
+        opacity: 0;
+        transform: translate3d(0, -3000px, 0);
+      }
+      60% {
+        opacity: 1;
+        transform: translate3d(0, 25px, 0);
+      }
+      75% {
+        transform: translate3d(0, -10px, 0);
+      }
+      90% {
+        transform: translate3d(0, 5px, 0);
+      }
+      to {
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    @keyframes bounceInLeft {
+      from, 60%, 75%, 90%, to {
+        animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+      }
+      0% {
+        opacity: 0;
+        transform: translate3d(-3000px, 0, 0);
+      }
+      60% {
+        opacity: 1;
+        transform: translate3d(25px, 0, 0);
+      }
+      75% {
+        transform: translate3d(-10px, 0, 0);
+      }
+      90% {
+        transform: translate3d(5px, 0, 0);
+      }
+      to {
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    @keyframes bounceInRight {
+      from, 60%, 75%, 90%, to {
+        animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+      }
+      from {
+        opacity: 0;
+        transform: translate3d(3000px, 0, 0);
+      }
+      60% {
+        opacity: 1;
+        transform: translate3d(-25px, 0, 0);
+      }
+      75% {
+        transform: translate3d(10px, 0, 0);
+      }
+      90% {
+        transform: translate3d(-5px, 0, 0);
+      }
+      to {
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    @keyframes bounceInUp {
+      from, 60%, 75%, 90%, to {
+        animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+      }
+      from {
+        opacity: 0;
+        transform: translate3d(0, 3000px, 0);
+      }
+      60% {
+        opacity: 1;
+        transform: translate3d(0, -20px, 0);
+      }
+      75% {
+        transform: translate3d(0, 10px, 0);
+      }
+      90% {
+        transform: translate3d(0, -5px, 0);
+      }
+      to {
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translate3d(0, -100%, 0);
+      }
+      to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    @keyframes fadeInLeft {
+      from {
+        opacity: 0;
+        transform: translate3d(-100%, 0, 0);
+      }
+      to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    @keyframes fadeInRight {
+      from {
+        opacity: 0;
+        transform: translate3d(100%, 0, 0);
+      }
+      to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translate3d(0, 100%, 0);
+      }
+      to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    @keyframes flipInX {
+      from {
+        transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+        animation-timing-function: ease-in;
+        opacity: 0;
+      }
+      40% {
+        transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+        animation-timing-function: ease-in;
+      }
+      60% {
+        transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
+        opacity: 1;
+      }
+      80% {
+        transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
+      }
+      to {
+        transform: perspective(400px);
+      }
+    }
+
+    @keyframes flipInY {
+      from {
+        transform: perspective(400px) rotate3d(0, 1, 0, 90deg);
+        animation-timing-function: ease-in;
+        opacity: 0;
+      }
+      40% {
+        transform: perspective(400px) rotate3d(0, 1, 0, -20deg);
+        animation-timing-function: ease-in;
+      }
+      60% {
+        transform: perspective(400px) rotate3d(0, 1, 0, 10deg);
+        opacity: 1;
+      }
+      80% {
+        transform: perspective(400px) rotate3d(0, 1, 0, -5deg);
+      }
+      to {
+        transform: perspective(400px);
+      }
+    }
+
+    @keyframes slideInDown {
+      from {
+        transform: translate3d(0, -100%, 0);
+        visibility: visible;
+      }
+      to {
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        transform: translate3d(-100%, 0, 0);
+        visibility: visible;
+      }
+      to {
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    @keyframes slideInRight {
+      from {
+        transform: translate3d(100%, 0, 0);
+        visibility: visible;
+      }
+      to {
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    @keyframes slideInUp {
+      from {
+        transform: translate3d(0, 100%, 0);
+        visibility: visible;
+      }
+      to {
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    @keyframes zoomIn {
+      from {
+        opacity: 0;
+        transform: scale3d(.3, .3, .3);
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes zoomInDown {
+      from {
+        opacity: 0;
+        transform: scale3d(.1, .1, .1) translate3d(0, -1000px, 0);
+        animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+      }
+      60% {
+        opacity: 1;
+        transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);
+        animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);
+      }
+    }
+
+    @keyframes zoomInLeft {
+      from {
+        opacity: 0;
+        transform: scale3d(.1, .1, .1) translate3d(-1000px, 0, 0);
+        animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+      }
+      60% {
+        opacity: 1;
+        transform: scale3d(.475, .475, .475) translate3d(10px, 0, 0);
+        animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);
+      }
+    }
+
+    @keyframes zoomInRight {
+      from {
+        opacity: 0;
+        transform: scale3d(.1, .1, .1) translate3d(1000px, 0, 0);
+        animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+      }
+      60% {
+        opacity: 1;
+        transform: scale3d(.475, .475, .475) translate3d(-10px, 0, 0);
+        animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);
+      }
+    }
+
+    @keyframes zoomInUp {
+      from {
+        opacity: 0;
+        transform: scale3d(.1, .1, .1) translate3d(0, 1000px, 0);
+        animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+      }
+      60% {
+        opacity: 1;
+        transform: scale3d(.475, .475, .475) translate3d(0, -60px, 0);
+        animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);
+      }
+    }
+
+    @keyframes rotateIn {
+      from {
+        transform-origin: center;
+        transform: rotate3d(0, 0, 1, -200deg);
+        opacity: 0;
+      }
+      to {
+        transform-origin: center;
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes rotateInDownLeft {
+      from {
+        transform-origin: left bottom;
+        transform: rotate3d(0, 0, 1, -45deg);
+        opacity: 0;
+      }
+      to {
+        transform-origin: left bottom;
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes rotateInDownRight {
+      from {
+        transform-origin: right bottom;
+        transform: rotate3d(0, 0, 1, 45deg);
+        opacity: 0;
+      }
+      to {
+        transform-origin: right bottom;
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes rotateInUpLeft {
+      from {
+        transform-origin: left bottom;
+        transform: rotate3d(0, 0, 1, 45deg);
+        opacity: 0;
+      }
+      to {
+        transform-origin: left bottom;
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes rotateInUpRight {
+      from {
+        transform-origin: right bottom;
+        transform: rotate3d(0, 0, 1, -90deg);
+        opacity: 0;
+      }
+      to {
+        transform-origin: right bottom;
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes lightSpeedInLeft {
+      from {
+        transform: translate3d(-100%, 0, 0) skewX(30deg);
+        opacity: 0;
+      }
+      60% {
+        transform: skewX(-20deg);
+        opacity: 1;
+      }
+      80% {
+        transform: skewX(5deg);
+        opacity: 1;
+      }
+      to {
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes lightSpeedInRight {
+      from {
+        transform: translate3d(100%, 0, 0) skewX(-30deg);
+        opacity: 0;
+      }
+      60% {
+        transform: skewX(20deg);
+        opacity: 1;
+      }
+      80% {
+        transform: skewX(-5deg);
+        opacity: 1;
+      }
+      to {
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes rollIn {
+      from {
+        opacity: 0;
+        transform: translate3d(-100%, 0, 0) rotate3d(0, 0, 1, -120deg);
+      }
+      to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    @keyframes jackInTheBox {
+      from {
+        opacity: 0;
+        transform: scale(0.1) rotate(30deg);
+        transform-origin: center bottom;
+      }
+      50% {
+        transform: rotate(-10deg);
+      }
+      70% {
+        transform: rotate(3deg);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>🎭 Framer Motion Animations</h1>
+      <p class="subtitle">90+ beautiful animations for React, powered by Framer Motion</p>
+      
+      <div class="links">
+        <a href="https://github.com/thedotmack/framer-motion-animations" class="btn">
+          📚 GitHub
+        </a>
+        <a href="https://www.npmjs.com/package/framer-motion-animations" class="btn">
+          📦 NPM Package
+        </a>
+        <a href="https://github.com/thedotmack/framer-motion-animations#readme" class="btn">
+          📖 Documentation
+        </a>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <span class="stat-number">90+</span>
+          <span>Animations</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number">13</span>
+          <span>Categories</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number">0</span>
+          <span>Dependencies</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number">100%</span>
+          <span>TypeScript</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="demo-section">
+      <h2>🎪 Live Animation Demo</h2>
+      
+      <div class="categories">
+        <span class="category-tag active" data-category="all">All</span>
+        <span class="category-tag" data-category="attention">Attention Seekers</span>
+        <span class="category-tag" data-category="bounce">Bouncing</span>
+        <span class="category-tag" data-category="fade">Fading</span>
+        <span class="category-tag" data-category="slide">Sliding</span>
+        <span class="category-tag" data-category="zoom">Zooming</span>
+        <span class="category-tag" data-category="rotate">Rotating</span>
+        <span class="category-tag" data-category="flip">Flipping</span>
+        <span class="category-tag" data-category="special">Specials</span>
+      </div>
+
+      <div class="animation-grid" id="animationGrid">
+        <!-- Popular animations -->
+        <div class="animation-card active" data-animation="bounceIn" data-category="bounce">
+          <h4>bounceIn</h4>
+          <p>Bounces in from center</p>
+        </div>
+        <div class="animation-card" data-animation="fadeIn" data-category="fade">
+          <h4>fadeIn</h4>
+          <p>Simple fade in</p>
+        </div>
+        <div class="animation-card" data-animation="slideInLeft" data-category="slide">
+          <h4>slideInLeft</h4>
+          <p>Slides in from left</p>
+        </div>
+        <div class="animation-card" data-animation="zoomIn" data-category="zoom">
+          <h4>zoomIn</h4>
+          <p>Zooms in from center</p>
+        </div>
+        <div class="animation-card" data-animation="bounce" data-category="attention">
+          <h4>bounce</h4>
+          <p>Bounces up and down</p>
+        </div>
+        <div class="animation-card" data-animation="flash" data-category="attention">
+          <h4>flash</h4>
+          <p>Flashes opacity</p>
+        </div>
+        <div class="animation-card" data-animation="pulse" data-category="attention">
+          <h4>pulse</h4>
+          <p>Pulses scale</p>
+        </div>
+        <div class="animation-card" data-animation="shake" data-category="attention">
+          <h4>shake</h4>
+          <p>Shakes left and right</p>
+        </div>
+        <div class="animation-card" data-animation="swing" data-category="attention">
+          <h4>swing</h4>
+          <p>Swings back and forth</p>
+        </div>
+        <div class="animation-card" data-animation="tada" data-category="attention">
+          <h4>tada</h4>
+          <p>Ta-da celebration</p>
+        </div>
+        <div class="animation-card" data-animation="wobble" data-category="attention">
+          <h4>wobble</h4>
+          <p>Wobbles side to side</p>
+        </div>
+        <div class="animation-card" data-animation="jello" data-category="attention">
+          <h4>jello</h4>
+          <p>Jello-like wiggle</p>
+        </div>
+        <div class="animation-card" data-animation="heartBeat" data-category="attention">
+          <h4>heartBeat</h4>
+          <p>Heart beat effect</p>
+        </div>
+        <div class="animation-card" data-animation="bounceInDown" data-category="bounce">
+          <h4>bounceInDown</h4>
+          <p>Bounces in from top</p>
+        </div>
+        <div class="animation-card" data-animation="bounceInLeft" data-category="bounce">
+          <h4>bounceInLeft</h4>
+          <p>Bounces in from left</p>
+        </div>
+        <div class="animation-card" data-animation="bounceInRight" data-category="bounce">
+          <h4>bounceInRight</h4>
+          <p>Bounces in from right</p>
+        </div>
+        <div class="animation-card" data-animation="bounceInUp" data-category="bounce">
+          <h4>bounceInUp</h4>
+          <p>Bounces in from bottom</p>
+        </div>
+        <div class="animation-card" data-animation="fadeInDown" data-category="fade">
+          <h4>fadeInDown</h4>
+          <p>Fades in from top</p>
+        </div>
+        <div class="animation-card" data-animation="fadeInLeft" data-category="fade">
+          <h4>fadeInLeft</h4>
+          <p>Fades in from left</p>
+        </div>
+        <div class="animation-card" data-animation="fadeInRight" data-category="fade">
+          <h4>fadeInRight</h4>
+          <p>Fades in from right</p>
+        </div>
+        <div class="animation-card" data-animation="fadeInUp" data-category="fade">
+          <h4>fadeInUp</h4>
+          <p>Fades in from bottom</p>
+        </div>
+        <div class="animation-card" data-animation="flipInX" data-category="flip">
+          <h4>flipInX</h4>
+          <p>Flips in on X axis</p>
+        </div>
+        <div class="animation-card" data-animation="flipInY" data-category="flip">
+          <h4>flipInY</h4>
+          <p>Flips in on Y axis</p>
+        </div>
+        <div class="animation-card" data-animation="lightSpeedInLeft" data-category="special">
+          <h4>lightSpeedInLeft</h4>
+          <p>Light speed from left</p>
+        </div>
+        <div class="animation-card" data-animation="lightSpeedInRight" data-category="special">
+          <h4>lightSpeedInRight</h4>
+          <p>Light speed from right</p>
+        </div>
+        <div class="animation-card" data-animation="rotateIn" data-category="rotate">
+          <h4>rotateIn</h4>
+          <p>Rotates in</p>
+        </div>
+        <div class="animation-card" data-animation="rotateInDownLeft" data-category="rotate">
+          <h4>rotateInDownLeft</h4>
+          <p>Rotates from down-left</p>
+        </div>
+        <div class="animation-card" data-animation="rotateInDownRight" data-category="rotate">
+          <h4>rotateInDownRight</h4>
+          <p>Rotates from down-right</p>
+        </div>
+        <div class="animation-card" data-animation="rotateInUpLeft" data-category="rotate">
+          <h4>rotateInUpLeft</h4>
+          <p>Rotates from up-left</p>
+        </div>
+        <div class="animation-card" data-animation="rotateInUpRight" data-category="rotate">
+          <h4>rotateInUpRight</h4>
+          <p>Rotates from up-right</p>
+        </div>
+        <div class="animation-card" data-animation="slideInDown" data-category="slide">
+          <h4>slideInDown</h4>
+          <p>Slides in from top</p>
+        </div>
+        <div class="animation-card" data-animation="slideInRight" data-category="slide">
+          <h4>slideInRight</h4>
+          <p>Slides in from right</p>
+        </div>
+        <div class="animation-card" data-animation="slideInUp" data-category="slide">
+          <h4>slideInUp</h4>
+          <p>Slides in from bottom</p>
+        </div>
+        <div class="animation-card" data-animation="zoomInDown" data-category="zoom">
+          <h4>zoomInDown</h4>
+          <p>Zooms in from top</p>
+        </div>
+        <div class="animation-card" data-animation="zoomInLeft" data-category="zoom">
+          <h4>zoomInLeft</h4>
+          <p>Zooms in from left</p>
+        </div>
+        <div class="animation-card" data-animation="zoomInRight" data-category="zoom">
+          <h4>zoomInRight</h4>
+          <p>Zooms in from right</p>
+        </div>
+        <div class="animation-card" data-animation="zoomInUp" data-category="zoom">
+          <h4>zoomInUp</h4>
+          <p>Zooms in from bottom</p>
+        </div>
+        <div class="animation-card" data-animation="rollIn" data-category="special">
+          <h4>rollIn</h4>
+          <p>Rolls in rotating</p>
+        </div>
+        <div class="animation-card" data-animation="jackInTheBox" data-category="special">
+          <h4>jackInTheBox</h4>
+          <p>Jack-in-the-box effect</p>
+        </div>
+      </div>
+
+      <div class="animation-info">
+        <h3 id="currentAnimation">bounceIn</h3>
+        <p>Click any animation above to preview it</p>
+      </div>
+
+      <div class="preview-area">
+        <div class="demo-element animated bounceIn" id="demoElement">
+          🎭 Animation Demo
+        </div>
+      </div>
+
+      <div class="controls">
+        <button class="btn" onclick="playAnimation()">▶️ Play Again</button>
+        <button class="btn" onclick="randomAnimation()">🎲 Random Animation</button>
+      </div>
+
+      <div class="code-section">
+        <h4>Usage Example:</h4>
+        <pre id="codeExample">import { BounceIn } from 'framer-motion-animations';
+
+function MyComponent() {
+  return (
+    &lt;BounceIn&gt;
+      &lt;div&gt;Your content here&lt;/div&gt;
+    &lt;/BounceIn&gt;
+  );
+}</pre>
+      </div>
+    </div>
+
+    <div class="demo-section">
+      <h2>🚀 Quick Start</h2>
+      <div class="code-section">
+        <pre># Install via npm
+npm install framer-motion-animations framer-motion
+
+# Or via yarn
+yarn add framer-motion-animations framer-motion
+
+# Or via pnpm
+pnpm add framer-motion-animations framer-motion</pre>
+      </div>
+    </div>
+
+    <div class="demo-section">
+      <h2>✨ Features</h2>
+      <div class="animation-grid">
+        <div class="animation-card">
+          <h4>🎯 Pixel Perfect</h4>
+          <p>Accurately recreated from animate.css</p>
+        </div>
+        <div class="animation-card">
+          <h4>📱 Mobile Optimized</h4>
+          <p>Hardware acceleration & reduced motion support</p>
+        </div>
+        <div class="animation-card">
+          <h4>🔧 TypeScript</h4>
+          <p>Full type definitions included</p>
+        </div>
+        <div class="animation-card">
+          <h4>🌲 Tree Shakeable</h4>
+          <p>Import only what you need</p>
+        </div>
+        <div class="animation-card">
+          <h4>♿ Accessible</h4>
+          <p>Respects prefers-reduced-motion</p>
+        </div>
+        <div class="animation-card">
+          <h4>⚡ Performance</h4>
+          <p>Optimized transforms & opacity</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentAnimation = 'bounceIn';
+    const demoElement = document.getElementById('demoElement');
+    const currentAnimationTitle = document.getElementById('currentAnimation');
+    const codeExample = document.getElementById('codeExample');
+    
+    // Animation categories
+    const animationsByCategory = {
+      attention: ['bounce', 'flash', 'pulse', 'shake', 'swing', 'tada', 'wobble', 'jello', 'heartBeat'],
+      bounce: ['bounceIn', 'bounceInDown', 'bounceInLeft', 'bounceInRight', 'bounceInUp'],
+      fade: ['fadeIn', 'fadeInDown', 'fadeInLeft', 'fadeInRight', 'fadeInUp'],
+      slide: ['slideInDown', 'slideInLeft', 'slideInRight', 'slideInUp'],
+      zoom: ['zoomIn', 'zoomInDown', 'zoomInLeft', 'zoomInRight', 'zoomInUp'],
+      rotate: ['rotateIn', 'rotateInDownLeft', 'rotateInDownRight', 'rotateInUpLeft', 'rotateInUpRight'],
+      flip: ['flipInX', 'flipInY'],
+      special: ['lightSpeedInLeft', 'lightSpeedInRight', 'rollIn', 'jackInTheBox']
+    };
+
+    // Get all animations
+    const allAnimations = Object.values(animationsByCategory).flat();
+
+    function toPascalCase(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    function updateCodeExample(animation) {
+      const pascalCase = toPascalCase(animation);
+      codeExample.innerHTML = `import { ${pascalCase} } from 'framer-motion-animations';
+
+function MyComponent() {
+  return (
+    &lt;${pascalCase}&gt;
+      &lt;div&gt;Your content here&lt;/div&gt;
+    &lt;/${pascalCase}&gt;
+  );
+}`;
+    }
+
+    function playAnimation() {
+      // Remove all animation classes
+      demoElement.className = 'demo-element animated';
+      
+      // Force reflow
+      demoElement.offsetHeight;
+      
+      // Add the current animation
+      demoElement.classList.add(currentAnimation);
+      
+      // Update title and code
+      currentAnimationTitle.textContent = currentAnimation;
+      updateCodeExample(currentAnimation);
+    }
+
+    function randomAnimation() {
+      const randomIndex = Math.floor(Math.random() * allAnimations.length);
+      currentAnimation = allAnimations[randomIndex];
+      
+      // Update active card
+      document.querySelectorAll('.animation-card').forEach(card => {
+        card.classList.remove('active');
+        if (card.dataset.animation === currentAnimation) {
+          card.classList.add('active');
+        }
+      });
+      
+      playAnimation();
+    }
+
+    // Add click handlers to animation cards
+    document.querySelectorAll('.animation-card').forEach(card => {
+      card.addEventListener('click', function() {
+        currentAnimation = this.dataset.animation;
+        
+        // Update active state
+        document.querySelectorAll('.animation-card').forEach(c => c.classList.remove('active'));
+        this.classList.add('active');
+        
+        playAnimation();
+      });
+    });
+
+    // Category filtering
+    document.querySelectorAll('.category-tag').forEach(tag => {
+      tag.addEventListener('click', function() {
+        const category = this.dataset.category;
+        
+        // Update active tag
+        document.querySelectorAll('.category-tag').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        
+        // Filter animations
+        document.querySelectorAll('.animation-card').forEach(card => {
+          if (category === 'all' || card.dataset.category === category) {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // Initial animation
+    playAnimation();
+
+    // Auto-play random animations every 3 seconds (for demo effect)
+    setInterval(() => {
+      if (Math.random() < 0.3) { // 30% chance to change animation
+        randomAnimation();
+      }
+    }, 3000);
+  </script>
+</body>
+</html>
