@@ -42,8 +42,8 @@ If you're using shadcn/ui or prefer to have the source code in your project:
 mkdir -p lib components/ui
 
 # Copy the files
-curl -o lib/animation-variants.ts https://raw.githubusercontent.com/alexnewman/framer-motion-animations/main/src/shadcn/animation-variants.ts
-curl -o components/ui/framer-animations.tsx https://raw.githubusercontent.com/alexnewman/framer-motion-animations/main/src/shadcn/framer-animations.tsx
+curl -o lib/animation-variants.ts https://raw.githubusercontent.com/thedotmack/framer-motion-animations/main/src/shadcn/animation-variants.ts
+curl -o components/ui/framer-animations.tsx https://raw.githubusercontent.com/thedotmack/framer-motion-animations/main/src/shadcn/framer-animations.tsx
 ```
 
 2. Install the required dependency:
@@ -270,7 +270,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📄 License
 
-MIT © [Alex Newman](https://github.com/alexnewman)
+MIT © [Alex Newman](https://github.com/thedotmack)
 
 ## 🙏 Credits
 
