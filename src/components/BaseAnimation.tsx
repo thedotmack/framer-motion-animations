@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { motion } from 'framer-motion';
 import { BaseAnimationProps } from '../types';
 import { animationVariants } from '../lib/variants';
