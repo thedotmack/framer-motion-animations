@@ -137,12 +137,14 @@ export const animationVariants: Record<string, AnimationVariant> = {
   },
 
   heartBeat: {
-    initial: { scale: 1 },
+    initial: {
+      scale: 1
+    },
     animate: {
       scale: [1, 1.3, 1, 1.3, 1],
       transition: {
         duration: 1.3,
-        times: [0, 0.14, 0.28, 0.42, 0.7, 1],
+        times: [0, 0.14, 0.28, 0.42, 0.7], // Remove the extra 1
         ease: "easeInOut"
       }
     }
